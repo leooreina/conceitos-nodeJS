@@ -1,3 +1,5 @@
 const app = require("./app");
 
-app.listen(3336);
+app.listen(3336, () => {
+    console.log('Backend rodando brabamente...');
+});

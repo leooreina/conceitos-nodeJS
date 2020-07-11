@@ -4,8 +4,8 @@ const { uuid, isUuid } = require("uuidv4");
 
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 const repositories = [];
 
@@ -29,7 +29,7 @@ function validateId(request, response, next) {
   return next();
 }
 
-app.use('/repositories', logRequests);
+app.use(logRequests);
 app.use('/repositories/:id', validateId);
 
 app.get("/repositories", (request, response) => {
