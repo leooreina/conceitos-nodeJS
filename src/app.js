@@ -9,6 +9,16 @@ app.use(cors());
 
 const repositories = [];
 
+function logRequests(request, response, next) {
+  const { method, url } = request;
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`
+
+  console.log(logLabel);
+
+  return next();
+}
+
 function validateId(request, response, next) {
   const { id } = request.params;
 
@@ -16,9 +26,10 @@ function validateId(request, response, next) {
     return response.status(400).json({ error: 'Ops, Id is not an uuid'})
   }
 
-  next();
+  return next();
 }
 
+app.use('/repositories', logRequests);
 app.use('/repositories/:id', validateId);
 
 app.get("/repositories", (request, response) => {
@@ -45,8 +56,8 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  const { title, url, techs } = request.body;
   const { id } = request.params;
+  const { title, url, techs } = request.body;
 
   const repositoryIndex = repositories.findIndex(repository => repository.id === id);
 
