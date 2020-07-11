@@ -29,7 +29,7 @@ function validateId(request, response, next) {
   return next();
 }
 
-app.use(logRequests);
+app.use('/repositories/:id', logRequests);
 app.use('/repositories/:id', validateId);
 
 app.get("/repositories", (request, response) => {
